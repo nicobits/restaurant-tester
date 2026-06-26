@@ -5,11 +5,11 @@ on:
     inputs:
       model:
         description: model
-        default: opus-4.8
+        default: gpt-5.5
         required: true
       workers:
         description: worker count
-        default: "3"
+        default: 3
         required: true
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
 
       - uses: trailofbits/micro@main
         env:
-          MICRO_PROVIDER: anthropic
-          MICRO_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MICRO_PROVIDER: openai
+          MICRO_OPENAI_API_KEY: ${{ secrets.MICRO_OPENAI_API_KEY }}
           MICRO_MODEL: ${{ inputs.model }}
           MICRO_WORKERS: ${{ inputs.workers }}
