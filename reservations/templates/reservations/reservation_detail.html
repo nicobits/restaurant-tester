@@ -1,0 +1,30 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Reservation {{ reservation.confirmation_code }}{% endblock %}
+
+{% block content %}
+<section class="detail-layout">
+  <div>
+    <div class="meta">Confirmation {{ reservation.confirmation_code }}</div>
+    <h1>{{ reservation.restaurant.name }}</h1>
+    <p>{{ reservation.reservation_time|date:"l, F j, g:i A" }}</p>
+    <p>{{ reservation.party_size }} guests for {{ reservation.guest_name }}</p>
+    <p>Status: <strong>{{ reservation.get_status_display }}</strong></p>
+
+    {% if reservation.occasion_note %}
+      <section class="note">
+        <h2>Guest note</h2>
+        <p>{{ reservation.occasion_note|safe }}</p>
+      </section>
+    {% endif %}
+  </div>
+
+  <aside class="panel">
+    <h2>Manage</h2>
+    <p>{{ reservation.guest_email }}</p>
+    {% if reservation.status != "cancelled" %}
+      <a class="danger-link" href="{% url 'cancel_reservation' reservation.id %}">Cancel reservation</a>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}

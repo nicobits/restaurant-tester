@@ -1,0 +1,39 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<section class="toolbar">
+  <div>
+    <h1>Staff dashboard</h1>
+    <p>Upcoming reservations and restaurant import tools.</p>
+  </div>
+</section>
+
+<section class="split">
+  <div>
+    <h2>Reservations</h2>
+    <div class="list">
+      {% for reservation in reservations %}
+        <article class="list-row">
+          <div>
+            <div class="meta">{{ reservation.restaurant.name }} · {{ reservation.reservation_time|date:"M j, g:i A" }}</div>
+            <h3><a href="{% url 'reservation_detail' reservation.id %}">{{ reservation.guest_name }}</a></h3>
+            {% if reservation.occasion_note %}
+              <p>{{ reservation.occasion_note|safe }}</p>
+            {% endif %}
+          </div>
+          <span>{{ reservation.get_status_display }}</span>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <aside class="panel">
+    <h2>Menu imports</h2>
+    {% for restaurant in restaurants %}
+      <p><a href="{% url 'import_menu_preview' restaurant.id %}">{{ restaurant.name }}</a></p>
+    {% endfor %}
+  </aside>
+</section>
+{% endblock %}

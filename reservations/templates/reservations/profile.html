@@ -1,0 +1,29 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<section class="form-page">
+  <div>
+    <h1>Diner profile</h1>
+    <p>{{ request.user.email }}</p>
+  </div>
+
+  <form method="post" class="form-card">
+    {% csrf_token %}
+    <p>
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" value="{{ profile.phone }}">
+    </p>
+    <p>
+      <label for="loyalty_tier">Loyalty tier</label>
+      <input id="loyalty_tier" name="loyalty_tier" value="{{ profile.loyalty_tier }}">
+    </p>
+    <p>
+      <label for="dining_notes">Dining notes</label>
+      <textarea id="dining_notes" name="dining_notes" rows="4">{{ profile.dining_notes }}</textarea>
+    </p>
+    <button type="submit">Update profile</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Import Menu Preview{% endblock %}
+
+{% block content %}
+<section class="form-page">
+  <div>
+    <div class="meta">{{ restaurant.neighborhood }} · {{ restaurant.cuisine }}</div>
+    <h1>Import menu preview</h1>
+    <p>{{ restaurant.name }}</p>
+  </div>
+
+  <form method="post" class="form-card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Import</button>
+  </form>
+
+  {% if restaurant.menu_import_preview %}
+    <section class="panel">
+      <h2>Latest preview</h2>
+      <p class="meta">{{ restaurant.last_menu_fetch_url }}</p>
+      <pre>{{ restaurant.menu_import_preview }}</pre>
+    </section>
+  {% endif %}
+</section>
+{% endblock %}

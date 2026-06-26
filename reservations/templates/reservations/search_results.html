@@ -1,0 +1,32 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Search Restaurants{% endblock %}
+
+{% block content %}
+<section class="toolbar">
+  <div>
+    <h1>Search results</h1>
+    <p>{{ restaurants|length }} match{{ restaurants|length|pluralize }} for your filters.</p>
+  </div>
+  <form method="get" action="{% url 'search' %}" class="search-form">
+    <input type="search" name="q" value="{{ q }}" placeholder="Cuisine or restaurant">
+    <input type="text" name="neighborhood" value="{{ neighborhood }}" placeholder="Neighborhood">
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section class="list">
+  {% for restaurant in restaurants %}
+    <article class="list-row">
+      <div>
+        <div class="meta">{{ restaurant.neighborhood }} · {{ restaurant.cuisine }}</div>
+        <h2><a href="{% url 'restaurant_detail' restaurant.slug %}">{{ restaurant.name }}</a></h2>
+        <p>{{ restaurant.address }}</p>
+      </div>
+      <a class="button" href="{% url 'reserve_table' restaurant.slug %}">Reserve</a>
+    </article>
+  {% empty %}
+    <p>No restaurants matched those filters.</p>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}{{ restaurant.name }}{% endblock %}
+
+{% block content %}
+<section class="detail-layout">
+  <div>
+    {% if restaurant.image_url %}
+      <img class="hero-image" src="{{ restaurant.image_url }}" alt="">
+    {% endif %}
+    <div class="meta">{{ restaurant.neighborhood }} · {{ restaurant.cuisine }} · Rating {{ restaurant.rating }}</div>
+    <h1>{{ restaurant.name }}</h1>
+    <p>{{ restaurant.description }}</p>
+    <p>{{ restaurant.address }}</p>
+    <a class="button" href="{% url 'reserve_table' restaurant.slug %}">Reserve a table</a>
+  </div>
+
+  <aside class="panel">
+    <h2>Upcoming seatings</h2>
+    {% for reservation in upcoming %}
+      <p>{{ reservation.reservation_time|date:"M j, g:i A" }} · {{ reservation.party_size }} guests</p>
+    {% empty %}
+      <p>No public seatings yet.</p>
+    {% endfor %}
+    {% if user.is_staff %}
+      <a href="{% url 'import_menu_preview' restaurant.id %}">Import menu preview</a>
+    {% endif %}
+  </aside>
+</section>
+{% endblock %}

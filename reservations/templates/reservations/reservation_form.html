@@ -1,0 +1,18 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}Reserve {{ restaurant.name }}{% endblock %}
+
+{% block content %}
+<section class="form-page">
+  <div>
+    <div class="meta">{{ restaurant.neighborhood }} · {{ restaurant.cuisine }}</div>
+    <h1>Reserve {{ restaurant.name }}</h1>
+  </div>
+
+  <form method="post" class="form-card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Confirm reservation</button>
+  </form>
+</section>
+{% endblock %}

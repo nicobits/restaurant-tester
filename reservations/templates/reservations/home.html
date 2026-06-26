@@ -1,0 +1,38 @@
+{% extends "reservations/base.html" %}
+
+{% block title %}NYC Restaurants{% endblock %}
+
+{% block content %}
+<section class="toolbar">
+  <div>
+    <h1>NYC reservations</h1>
+    <p>Browse neighborhood dining rooms and reserve a table.</p>
+  </div>
+  <form method="get" action="{% url 'search' %}" class="search-form">
+    <input type="search" name="q" placeholder="Cuisine or restaurant">
+    <select name="neighborhood">
+      <option value="">Any neighborhood</option>
+      {% for neighborhood in neighborhoods %}
+        <option value="{{ neighborhood }}">{{ neighborhood }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Search</button>
+  </form>
+</section>
+
+<section class="restaurant-grid">
+  {% for restaurant in restaurants %}
+    <article class="restaurant-card">
+      {% if restaurant.image_url %}
+        <img src="{{ restaurant.image_url }}" alt="">
+      {% endif %}
+      <div class="card-body">
+        <div class="meta">{{ restaurant.neighborhood }} · {{ restaurant.cuisine }} · ${{ restaurant.price_level }}</div>
+        <h2><a href="{% url 'restaurant_detail' restaurant.slug %}">{{ restaurant.name }}</a></h2>
+        <p>{{ restaurant.description }}</p>
+        <a class="button" href="{% url 'reserve_table' restaurant.slug %}">Reserve</a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}
