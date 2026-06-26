@@ -1,0 +1,29 @@
+name: micro
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: model
+        default: opus-4.8
+        required: true
+      workers:
+        description: worker count
+        default: "3"
+        required: true
+
+jobs:
+  micro:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: trailofbits/micro@main
+        env:
+          MICRO_PROVIDER: anthropic
+          MICRO_ANTHROPIC_API_KEY: ${{ secrets.MICRO_ANTHROPIC_API_KEY }}
+          MICRO_MODEL: ${{ inputs.model }}
+          MICRO_WORKERS: ${{ inputs.workers }}
